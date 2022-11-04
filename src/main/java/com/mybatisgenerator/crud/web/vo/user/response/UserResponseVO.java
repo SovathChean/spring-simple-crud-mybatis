@@ -4,4 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserResponseVO {
+    private String id;
+    private String description;
 }

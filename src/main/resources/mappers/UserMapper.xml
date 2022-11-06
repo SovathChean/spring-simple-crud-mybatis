@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.mybatisgenerator.crud.biz.dao.user">
+<mapper namespace="com.mybatisgenerator.crud.biz.dao.user.UserDAO">
 
     <select id="findOneById" useCache="true" resultType="com.mybatisgenerator.crud.biz.dto.user.UserDTO">
         select * from users where id = #{id};
     </select>
     <select id="findAll" useCache="true" resultType="com.mybatisgenerator.crud.biz.dto.user.UserDTO">
-        select * from users as user
+        select * from users as u
         <where>
             <if test="keywords == null">
                 true
             </if>
             <if test="keywords != null">
-                LOWER(user.description) LIKE LOWER(concat('%', #{keywords}, '%'))
+                LOWER(u.description) LIKE LOWER(concat('%', #{keywords}, '%'))
             </if>
         </where>
-        LIMIT #{page.pageSize} OFFSET #{page.offset}
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
     <select id="count" useCache="true" resultType="java.lang.Integer">
-        select count(user.id) from users as user
+        select count(u.id) from users as u
         <where>
             <if test="keywords == null">
                 true
             </if>
             <if test="keywords != null">
-                LOWER(user.description) LIKE LOWER(concat('%', #{keywords}, '%'))
+                LOWER(u.description) LIKE LOWER(concat('%', #{keywords}, '%'))
             </if>
         </where>
-        LIMIT #{page.pageSize} OFFSET #{page.offset}
     </select>
 
-    <insert id="insert" keyProperty="true">
+    <insert id="create" keyProperty="true">
         INSERT INTO users
         (
             id,
@@ -44,7 +43,7 @@
         );
     </insert>
     <update id="update" flushCache="true">
-        UPDATE users SET description=#{description} WHERE id = #{id}
+        UPDATE users SET description = #{user.description} WHERE id = #{id}
     </update>
     <delete id="delete" flushCache="true">
         DELETE FROM users WHERE id = #{id}

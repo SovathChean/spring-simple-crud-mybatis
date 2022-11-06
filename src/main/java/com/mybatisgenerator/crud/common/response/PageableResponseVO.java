@@ -1,13 +1,15 @@
 package com.mybatisgenerator.crud.common.response;
 
 import com.mybatisgenerator.crud.common.request.PageableRequest;
-import com.mybatisgenerator.crud.web.vo.user.request.UserPageableRequestVO;
-import com.mybatisgenerator.crud.web.vo.user.response.UserItemResponseVO;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
 
-public class PageableResponseVO<T> {
+@Getter
+@Setter
+public class PageableResponseVO<T>{
     protected static final long DEFAULT_RECORDS = 1;
 
     private Long records = DEFAULT_RECORDS;

@@ -6,6 +6,7 @@ import com.mybatisgenerator.crud.biz.service.UserService;
 import com.mybatisgenerator.crud.common.dao.SequenceDAO;
 import com.mybatisgenerator.crud.web.vo.user.request.UserPageableRequestVO;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         dao.update(id, userDTO);
 
-        return dao.findOneById(userDTO.getId());
+        return dao.findOneById(id);
     }
 
     @Override
@@ -44,16 +45,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findOne(String id) {
-        return dao.findOneById(id);
+
+        UserDTO userDTO =  this.findById(id);
+
+        return userDTO;
+    }
+    protected UserDTO findById(String id)
+    {
+        UserDTO user = dao.findOneById(id);
+        if(ObjectUtils.isEmpty(user))
+            throw new RuntimeException("User Not found");
+        return user;
     }
 
     @Override
     public Page<UserDTO> findAll(UserDTO userDTO, UserPageableRequestVO pageableRequestVO) {
-        Integer count = dao.count(userDTO.getKeywords(), pageableRequestVO);
+        Integer count = dao.count(userDTO.getKeywords());
         List<UserDTO> items = new ArrayList<>();
         if(count > 0)
         {
-            items = dao.findAll(userDTO.getKeywords(), pageableRequestVO);
+            items = dao.findAll(userDTO.getKeywords(), pageableRequestVO.getRpp(), pageableRequestVO.getOffset());
         }
 
         return new PageImpl<>(items, PageRequest.of(pageableRequestVO.getPage() - 1, pageableRequestVO.getRpp()), count);

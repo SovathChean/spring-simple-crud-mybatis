@@ -66,9 +66,9 @@ public class UserController implements AbstractController<UserItemResponseVO, Us
     {
         UserDTO createDto = new UserDTO();
         UserMapper.INSTANCE.copyCreateRequestVoToDto(requestVO, createDto);
-        this.userService.create(createDto);
+        UserDTO user =  this.userService.create(createDto);
         UserResponseVO response = new UserResponseVO();
-        UserMapper.INSTANCE.copyDtoToResponseVo(createDto, response);
+        UserMapper.INSTANCE.copyDtoToResponseVo(user, response);
 
         return new ResponseBuilderMessage<UserResponseVO>()
                 .success()
@@ -81,9 +81,9 @@ public class UserController implements AbstractController<UserItemResponseVO, Us
     {
         UserDTO update = new UserDTO();
         UserMapper.INSTANCE.copyUpdateRequestVoToDto(requestVO, update);
-        this.userService.update(id, update);
+        UserDTO user = this.userService.update(id, update);
         UserResponseVO response = new UserResponseVO();
-        UserMapper.INSTANCE.copyDtoToResponseVo(update, response);
+        UserMapper.INSTANCE.copyDtoToResponseVo(user, response);
 
         return new ResponseBuilderMessage<UserResponseVO>()
                 .success()

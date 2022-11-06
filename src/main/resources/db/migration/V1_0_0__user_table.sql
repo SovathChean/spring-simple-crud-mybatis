@@ -1,8 +1,8 @@
 
-CREATE sequence "user_seq"
+CREATE SEQUENCE user_seq;
+
 CREATE TABLE users
-{
-     id BIGSERIAL,
-     description text,
-     PRIMARY KEY(id)
-}
+(
+     id varchar (100) PRIMARY KEY,
+     description varchar (255) NULL
+)

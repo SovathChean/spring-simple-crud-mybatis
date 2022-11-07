@@ -43,7 +43,7 @@
         );
     </insert>
     <update id="update" flushCache="true">
-        UPDATE users SET description = #{user.description} WHERE id = #{id}
+        UPDATE users SET description = #{dto.description} WHERE id = #{id}
     </update>
     <delete id="delete" flushCache="true">
         DELETE FROM users WHERE id = #{id}
